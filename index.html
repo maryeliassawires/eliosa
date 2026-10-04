@@ -547,11 +547,10 @@
               <div class="form-group">
                 <label for="inquiryInterest" class="form-label">I Am Interested In</label>
                 <select id="inquiryInterest" class="form-select">
-                  <option value="custom-commission">Request a Custom Commission</option>
-                  <option value="collect-original">Purchasing an Original Icon / Print</option>
-                  <option value="painting-kits">Painting Kits & Coloring Books</option>
-                  <option value="group-workshop">Host a Group Workshop or Retreat</option>
-                  <option value="general-inquiry">General Question</option>
+                  <option value="Custom commission">Custom commission</option>
+                  <option value="Sacred Icons or Prints">Sacred Icons or Prints</option>
+                  <option value="Painting Kits.">Painting Kits &amp; Coloring Books</option>
+                  <option value="Workshops">Workshops &amp; Parish Events</option>
                 </select>
               </div>
 
@@ -564,6 +563,18 @@
                 Send Inquiry to Eliosa Studio
               </button>
             </form>
+
+            <!-- Success State -->
+            <div id="formSuccessMessage" style="display: none; padding: 32px 24px; background: rgba(195, 148, 70, 0.08); border: 1px solid var(--border-gold); border-radius: var(--radius-md); text-align: center;">
+              <div style="font-size: 2.2rem; color: var(--gold-dark); margin-bottom: 8px;">&#10003;</div>
+              <h4 style="font-family: var(--font-serif-heading); font-size: 1.35rem; margin-bottom: 10px; color: var(--text-primary);">Inquiry Received</h4>
+              <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; margin-bottom: 18px;">
+                Thank you! Your message has been sent to Eliosa Studio. Mary will review your inquiry and get in touch with you shortly.
+              </p>
+              <button type="button" id="sendAnotherBtn" style="padding: 10px 24px; background: var(--text-primary); color: #ffffff; font-size: 0.85rem; font-weight: 600; border-radius: var(--radius-full); cursor: pointer; transition: background 0.2s;">
+                Send Another Message
+              </button>
+            </div>
           </div>
         </div>
       </div>

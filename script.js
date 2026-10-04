@@ -135,9 +135,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const contactSection = document.getElementById('contact');
     const interestSelect = document.getElementById('inquiryInterest');
     const messageField = document.getElementById('inquiryMessage');
+    const contactForm = document.getElementById('contactForm');
+    const formSuccessMessage = document.getElementById('formSuccessMessage');
+
+    if (formSuccessMessage) formSuccessMessage.style.display = 'none';
+    if (contactForm) contactForm.style.display = 'block';
 
     if (interestSelect) {
-      interestSelect.value = 'collect-original';
+      interestSelect.value = 'Sacred Icons or Prints';
     }
     if (messageField) {
       messageField.value = `Hello Eliosa Studio,\n\nI am interested in acquiring or learning more about: "${artworkName}". Please let me know availability and pricing options.`;
@@ -148,26 +153,70 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 6. Contact Form Submission
+  // 6. Contact Form Submission (Google Forms AJAX Integration)
   const contactForm = document.getElementById('contactForm');
+  const formSuccessMessage = document.getElementById('formSuccessMessage');
+  const sendAnotherBtn = document.getElementById('sendAnotherBtn');
+  const submitInquiryBtn = document.getElementById('submitInquiryBtn');
   const toast = document.getElementById('toastMsg');
 
+  // Direct Google Form Action Endpoint
+  const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdUX349ubMWNo6F0NVU2tW2vcQOQlz0YnG0lbxLeItynXwVJg/formResponse';
+
   if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const name = document.getElementById('inquiryName').value;
-      const email = document.getElementById('inquiryEmail').value;
+
+      const name = document.getElementById('inquiryName').value.trim();
+      const email = document.getElementById('inquiryEmail').value.trim();
       const interest = document.getElementById('inquiryInterest').value;
-      const message = document.getElementById('inquiryMessage').value;
+      const message = document.getElementById('inquiryMessage').value.trim();
 
-      const subject = encodeURIComponent(`Eliosa Studio Inquiry: ${interest} from ${name}`);
-      const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nInterest: ${interest}\n\nMessage:\n${message}`);
+      const originalBtnText = submitInquiryBtn ? submitInquiryBtn.innerText : 'Send Inquiry';
+      if (submitInquiryBtn) {
+        submitInquiryBtn.disabled = true;
+        submitInquiryBtn.innerText = 'Sending Inquiry...';
+      }
 
-      // Open mail client
-      window.location.href = `mailto:eliosastudio@gmail.com?subject=${subject}&body=${body}`;
+      // Map to exact Google Form entry IDs
+      const formData = new FormData();
+      formData.append('entry.1545196568', name);
+      formData.append('entry.1322933981', email);
+      formData.append('entry.1661348622', interest);
+      formData.append('entry.1783411280', message);
 
-      showToast('Thank you! Your message has been prepared in your email client.');
-      contactForm.reset();
+      try {
+        await fetch(GOOGLE_FORM_ACTION_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: formData
+        });
+
+        // Show in-page success confirmation
+        contactForm.style.display = 'none';
+        if (formSuccessMessage) {
+          formSuccessMessage.style.display = 'block';
+        }
+        showToast('Your inquiry has been submitted successfully!');
+        contactForm.reset();
+      } catch (err) {
+        console.error('Submission error:', err);
+        // Fallback to mailto if network error
+        window.location.href = `mailto:eliosastudio@gmail.com?subject=${encodeURIComponent('Inquiry from ' + name)}&body=${encodeURIComponent(message)}`;
+        showToast('Preparing your message in your email client...');
+      } finally {
+        if (submitInquiryBtn) {
+          submitInquiryBtn.disabled = false;
+          submitInquiryBtn.innerText = originalBtnText;
+        }
+      }
+    });
+  }
+
+  if (sendAnotherBtn) {
+    sendAnotherBtn.addEventListener('click', () => {
+      if (formSuccessMessage) formSuccessMessage.style.display = 'none';
+      if (contactForm) contactForm.style.display = 'block';
     });
   }
 
