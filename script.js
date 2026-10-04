@@ -164,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nInterest: ${interest}\n\nMessage:\n${message}`);
 
       // Open mail client
-      window.location.href = `mailto:maryeliassawires@gmail.com?subject=${subject}&body=${body}`;
+      window.location.href = `mailto:eliosastudio@gmail.com?subject=${subject}&body=${body}`;
 
       showToast('Thank you! Your message has been prepared in your email client.');
       contactForm.reset();
