@@ -438,33 +438,38 @@ button {
 .hero-arch-frame {
   position: relative;
   width: 100%;
-  max-width: 440px;
-  height: 560px;
-  background: #ede3d6;
-  border-radius: var(--radius-arch);
+  max-width: 360px;
+  aspect-ratio: 9 / 16;
+  max-height: 640px;
+  background: radial-gradient(circle at 50% 25%, #fdfaf5 0%, #eee3d5 100%);
+  border-radius: 180px 180px 24px 24px;
   overflow: hidden;
-  box-shadow: var(--shadow-lg);
-  border: 4px solid var(--bg-surface);
-  outline: 1px solid var(--border-gold);
+  box-shadow: var(--shadow-lg), 0 0 35px rgba(195, 148, 70, 0.18);
+  border: 5px solid #ffffff;
+  outline: 1.5px solid var(--border-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hero-main-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.8s ease;
+  object-fit: contain;
+  object-position: center;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero-arch-frame:hover .hero-main-img {
-  transform: scale(1.04);
+  transform: scale(1.03);
 }
 
 .hero-floating-card {
   position: absolute;
-  bottom: -20px;
+  bottom: -15px;
   left: -20px;
-  background: var(--bg-surface);
-  padding: 18px 24px;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 16px 22px;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--border-gold);
@@ -1375,5 +1380,13 @@ button {
 
   .contact-form-panel {
     padding: 24px 16px;
+  }
+
+  .hero-floating-card {
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -15px;
+    width: max-content;
+    max-width: 90%;
   }
 }
