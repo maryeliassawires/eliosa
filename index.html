@@ -219,8 +219,21 @@
             </p>
             <a href="#contact" class="btn-primary">Request an Event or Workshop</a>
           </div>
-          <div>
-            <img src="assets/images/supplies_workshop_1.jpg" alt="Iconography workshop supplies and painting" class="workshop-img">
+          <div class="carousel" id="workshopCarousel" aria-roledescription="carousel" aria-label="Photos from icon painting events">
+            <div class="carousel-viewport">
+              <figure class="carousel-slide is-active" aria-roledescription="slide" aria-label="1 of 3">
+                <img src="assets/images/workshop_group_1.jpg" alt="Workshop participant painting a Good Shepherd icon on pre-outlined canvas" loading="lazy">
+              </figure>
+              <figure class="carousel-slide" aria-roledescription="slide" aria-label="2 of 3">
+                <img src="assets/images/workshop_group_2.jpg" alt="Participants painting Good Shepherd icons together at a group event" loading="lazy">
+              </figure>
+              <figure class="carousel-slide" aria-roledescription="slide" aria-label="3 of 3">
+                <img src="assets/images/supplies_workshop_1.jpg" alt="Young student coloring and painting an icon of Saint Mark" loading="lazy">
+              </figure>
+            </div>
+            <button type="button" class="carousel-btn carousel-prev" id="workshopPrevBtn" aria-label="Previous photo">&#8249;</button>
+            <button type="button" class="carousel-btn carousel-next" id="workshopNextBtn" aria-label="Next photo">&#8250;</button>
+            <div class="carousel-dots" role="tablist" aria-label="Choose photo"></div>
           </div>
         </div>
       </div>
@@ -533,20 +546,30 @@
 
           <!-- Contact Form -->
           <div class="contact-form-panel">
-            <form id="contactForm">
+            <form id="contactForm" novalidate="false">
               <div class="form-group">
-                <label for="inquiryName" class="form-label">Your Name</label>
-                <input type="text" id="inquiryName" class="form-input" placeholder="Mary Elias" required>
+                <label for="inquiryName" class="form-label">
+                  <span>Your Name</span>
+                  <span class="required-star" title="Required">*</span>
+                </label>
+                <input type="text" id="inquiryName" name="name" class="form-input" placeholder="e.g. Mary Elias" autocomplete="name" required>
               </div>
 
               <div class="form-group">
-                <label for="inquiryEmail" class="form-label">Email Address</label>
-                <input type="email" id="inquiryEmail" class="form-input" placeholder="you@example.com" required>
+                <label for="inquiryEmail" class="form-label">
+                  <span>Email Address</span>
+                  <span class="required-star" title="Required">*</span>
+                </label>
+                <input type="email" id="inquiryEmail" name="email" class="form-input" placeholder="e.g. you@example.com" autocomplete="email" required>
               </div>
 
               <div class="form-group">
-                <label for="inquiryInterest" class="form-label">I Am Interested In</label>
-                <select id="inquiryInterest" class="form-select">
+                <label for="inquiryInterest" class="form-label">
+                  <span>I Am Interested In</span>
+                  <span class="required-star" title="Required">*</span>
+                </label>
+                <select id="inquiryInterest" name="interest" class="form-select" required>
+                  <option value="" disabled selected>Select an option...</option>
                   <option value="Custom commission">Custom commission</option>
                   <option value="Sacred Icons or Prints">Sacred Icons or Prints</option>
                   <option value="Painting Kits.">Painting Kits &amp; Coloring Books</option>
@@ -555,13 +578,19 @@
               </div>
 
               <div class="form-group">
-                <label for="inquiryMessage" class="form-label">Message or Details</label>
-                <textarea id="inquiryMessage" class="form-textarea" placeholder="Tell us about the icon, size, or event you have in mind..." required></textarea>
+                <label for="inquiryMessage" class="form-label">
+                  <span>Message or Details</span>
+                  <span class="required-star" title="Required">*</span>
+                </label>
+                <textarea id="inquiryMessage" name="message" class="form-textarea" rows="4" placeholder="Tell us about the icon, size, or event you have in mind..." required></textarea>
               </div>
 
               <button type="submit" class="form-submit-btn" id="submitInquiryBtn">
                 Send Inquiry to Eliosa Studio
               </button>
+              <p class="form-hint-note">
+                &#128274; Direct inquiry to Mary Elias Sawires &bull; Usually responds within 24&ndash;48 hrs
+              </p>
             </form>
 
             <!-- Success State -->
