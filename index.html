@@ -564,13 +564,21 @@
               <p class="form-subtitle">Messages are delivered directly to Mary Elias Sawires via Google Forms</p>
             </div>
 
-            <form id="contactForm" novalidate="false">
+            <!-- Hidden iframe for reliable native Google Form submission without page reload -->
+            <iframe name="google_form_target_iframe" id="google_form_target_iframe" style="display: none;"></iframe>
+
+            <form id="contactForm" action="https://docs.google.com/forms/d/e/1FAIpQLSdUX349ubMWNo6F0NVU2tW2vcQOQlz0YnG0lbxLeItynXwVJg/formResponse" method="POST" target="google_form_target_iframe" novalidate="false">
+              <!-- Required Google Form system fields -->
+              <input type="hidden" name="emailAddress" id="formEmailAddress" value="">
+              <input type="hidden" name="fvv" value="1">
+              <input type="hidden" name="pageHistory" value="0">
+
               <div class="form-group">
                 <label for="inquiryName" class="form-label">
                   <span>Your Name</span>
                   <span class="required-star" title="Required">*</span>
                 </label>
-                <input type="text" id="inquiryName" name="name" class="form-input" placeholder="Your Name" autocomplete="name" required>
+                <input type="text" id="inquiryName" name="entry.1545196568" class="form-input" placeholder="Your Name" autocomplete="name" required>
               </div>
 
               <div class="form-group">
@@ -578,7 +586,7 @@
                   <span>Email Address</span>
                   <span class="required-star" title="Required">*</span>
                 </label>
-                <input type="email" id="inquiryEmail" name="email" class="form-input" placeholder="e.g. you@example.com" autocomplete="email" required>
+                <input type="email" id="inquiryEmail" name="entry.1322933981" class="form-input" placeholder="e.g. you@example.com" autocomplete="email" required>
               </div>
 
               <div class="form-group">
@@ -586,7 +594,7 @@
                   <span>I Am Interested In</span>
                   <span class="required-star" title="Required">*</span>
                 </label>
-                <select id="inquiryInterest" name="interest" class="form-select" required>
+                <select id="inquiryInterest" name="entry.1661348622" class="form-select" required>
                   <option value="" disabled selected>Select an option...</option>
                   <option value="Custom commission">Custom commission</option>
                   <option value="Sacred Icons or Prints">Sacred Icons or Prints</option>
@@ -600,7 +608,7 @@
                   <span>Message or Details</span>
                   <span class="required-star" title="Required">*</span>
                 </label>
-                <textarea id="inquiryMessage" name="message" class="form-textarea" rows="4" placeholder="Tell us about the icon, size, or event you have in mind..." required></textarea>
+                <textarea id="inquiryMessage" name="entry.1783411280" class="form-textarea" rows="4" placeholder="Tell us about the icon, size, or event you have in mind..." required></textarea>
               </div>
 
               <button type="submit" class="form-submit-btn" id="submitInquiryBtn">
@@ -701,6 +709,6 @@
   <!-- Toast Notification -->
   <div class="toast-msg" id="toastMsg"></div>
 
-  <script src="script.js?v=20261006"></script>
+  <script src="script.js?v=20261008"></script>
 </body>
 </html>

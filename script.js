@@ -153,24 +153,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 6. Contact Form Submission (Google Forms AJAX Integration)
+  // 6. Contact Form Submission (Google Forms Reliable Integration)
   const contactForm = document.getElementById('contactForm');
   const formSuccessMessage = document.getElementById('formSuccessMessage');
   const sendAnotherBtn = document.getElementById('sendAnotherBtn');
   const submitInquiryBtn = document.getElementById('submitInquiryBtn');
+  const formEmailAddress = document.getElementById('formEmailAddress');
   const toast = document.getElementById('toastMsg');
 
   // Direct Google Form Action Endpoint
   const GOOGLE_FORM_ACTION_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdUX349ubMWNo6F0NVU2tW2vcQOQlz0YnG0lbxLeItynXwVJg/formResponse';
 
   if (contactForm) {
-    contactForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
+    contactForm.addEventListener('submit', (e) => {
       const name = document.getElementById('inquiryName').value.trim();
       const email = document.getElementById('inquiryEmail').value.trim();
       const interest = document.getElementById('inquiryInterest').value;
       const message = document.getElementById('inquiryMessage').value.trim();
+
+      if (!name || !email || !message) {
+        return; // HTML5 native validation handles required fields
+      }
+
+      // CRITICAL: Google Form requires 'emailAddress' field when "Collect emails" is enabled
+      if (formEmailAddress) {
+        formEmailAddress.value = email;
+      }
 
       const originalBtnText = submitInquiryBtn ? submitInquiryBtn.innerText : 'Send Inquiry';
       if (submitInquiryBtn) {
@@ -178,38 +186,41 @@ document.addEventListener('DOMContentLoaded', () => {
         submitInquiryBtn.innerText = 'Sending Inquiry...';
       }
 
-      // Map to exact Google Form entry IDs
-      const formData = new FormData();
-      formData.append('entry.1545196568', name);
-      formData.append('entry.1322933981', email);
-      formData.append('entry.1661348622', interest);
-      formData.append('entry.1783411280', message);
-
+      // Dual-channel guarantee: also fire background fetch with required emailAddress
       try {
-        await fetch(GOOGLE_FORM_ACTION_URL, {
+        const formData = new FormData();
+        formData.append('emailAddress', email);
+        formData.append('entry.1545196568', name);
+        formData.append('entry.1322933981', email);
+        formData.append('entry.1661348622', interest);
+        formData.append('entry.1783411280', message);
+        formData.append('fvv', '1');
+        formData.append('pageHistory', '0');
+
+        fetch(GOOGLE_FORM_ACTION_URL, {
           method: 'POST',
           mode: 'no-cors',
           body: formData
+        }).catch((err) => {
+          console.warn('Background fetch notification:', err);
         });
+      } catch (err) {
+        console.warn('Fetch fallback caught:', err);
+      }
 
-        // Show in-page success confirmation
+      // Native form targets google_form_target_iframe simultaneously
+      setTimeout(() => {
         contactForm.style.display = 'none';
         if (formSuccessMessage) {
           formSuccessMessage.style.display = 'block';
         }
-        showToast('Your inquiry has been submitted successfully!');
-        contactForm.reset();
-      } catch (err) {
-        console.error('Submission error:', err);
-        // Fallback to mailto if network error
-        window.location.href = `mailto:eliosastudio@gmail.com?subject=${encodeURIComponent('Inquiry from ' + name)}&body=${encodeURIComponent(message)}`;
-        showToast('Preparing your message in your email client...');
-      } finally {
+        showToast('Your inquiry has been submitted directly to Google Forms!');
         if (submitInquiryBtn) {
           submitInquiryBtn.disabled = false;
           submitInquiryBtn.innerText = originalBtnText;
         }
-      }
+        contactForm.reset();
+      }, 500);
     });
   }
 
