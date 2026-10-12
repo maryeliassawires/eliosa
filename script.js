@@ -76,17 +76,21 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.view-artwork-trigger').forEach(trigger => {
     trigger.addEventListener('click', (e) => {
       e.preventDefault();
-      const card = trigger.closest('.artwork-card');
-      const title = card.querySelector('.artwork-title').innerText;
-      const technique = card.querySelector('.artwork-technique').innerText;
-      const metaTag = card.querySelector('.artwork-meta-tag').innerText;
-      const imgSrc = card.querySelector('.artwork-img').getAttribute('src');
+      const card = trigger.closest('.artwork-card, .process-card');
+      if (!card) return;
+
+      const title = card.querySelector('.artwork-title')?.innerText || 'Sacred Study';
+      const technique = card.querySelector('.artwork-technique')?.innerText || '';
+      const metaTag = card.querySelector('.artwork-meta-tag')?.innerText || 'Eliosa Studio';
+      const imgSrc = card.querySelector('.artwork-img')?.getAttribute('src') || '';
+      const descEl = card.querySelector('.process-desc');
+      const descHtml = descEl ? `<p style="margin-top: 12px; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">${descEl.innerText}</p>` : '';
 
       currentArtworkName = title;
       modalImg.src = imgSrc;
       modalImg.alt = title;
       modalTitle.innerText = title;
-      modalMeta.innerHTML = `<strong>Medium & Details:</strong><br>${technique.replace(/\n/g, '<br>')}<br><br><span class="section-badge">${metaTag}</span>`;
+      modalMeta.innerHTML = `<strong>Medium & Details:</strong><br>${technique.replace(/\n/g, '<br>')}${descHtml}<br><br><span class="section-badge">${metaTag}</span>`;
 
       modal.classList.add('active');
       document.body.style.overflow = 'hidden';
